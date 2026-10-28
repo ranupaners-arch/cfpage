@@ -1,64 +1,74 @@
-# Astro Starter Kit: Blog
+# cfpage
 
-[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/cloudflare/templates/tree/main/astro-blog-starter-template)
+Blog pribadi berbasis Astro yang dideploy sebagai static site di Cloudflare Workers. Ditujukan untuk menulis dan membagikan artikel/catatan pribadi.
 
-![Astro Template Preview](https://github.com/withastro/astro/assets/2244813/ff10799f-a816-4703-b967-c78997e8323d)
+## Fitur Utama
 
-<!-- dash-content-start -->
+- Daftar dan halaman detail artikel blog (Markdown & MDX) di `src/content/blog`
+- Halaman "About"
+- RSS feed (`/rss.xml`)
+- Sitemap otomatis
+- SEO dasar: canonical URL & OpenGraph meta (lihat `src/components/BaseHead.astro`)
+- Observability logging bawaan Cloudflare Workers
 
-Create a blog with Astro and deploy it on Cloudflare Workers as a [static website](https://developers.cloudflare.com/workers/static-assets/).
+## Tech Stack
 
-Features:
+- [Astro](https://astro.build) 5
+- `@astrojs/cloudflare` — adapter deploy ke Cloudflare Workers
+- `@astrojs/mdx` — dukungan MDX
+- `@astrojs/sitemap` — generate sitemap
+- `@astrojs/rss` — generate RSS feed
+- TypeScript
+- Wrangler (CLI Cloudflare) untuk dev/deploy
 
-- ✅ Minimal styling (make it your own!)
-- ✅ 100/100 Lighthouse performance
-- ✅ SEO-friendly with canonical URLs and OpenGraph data
-- ✅ Sitemap support
-- ✅ RSS Feed support
-- ✅ Markdown & MDX support
-- ✅ Built-in Observability logging
+## Cara Menjalankan Lokal
 
-<!-- dash-content-end -->
-
-## Getting Started
-
-Outside of this repo, you can start a new project with this template using [C3](https://developers.cloudflare.com/pages/get-started/c3/) (the `create-cloudflare` CLI):
+Prasyarat: Node.js >= 22.
 
 ```bash
-npm create cloudflare@latest -- --template=cloudflare/templates/astro-blog-starter-template
+# install dependency
+npm install
+
+# jalankan dev server (http://localhost:4321)
+npm run dev
+
+# build untuk produksi
+npm run build
+
+# preview hasil build secara lokal (lewat wrangler)
+npm run preview
 ```
 
-A live public deployment of this template is available at [https://astro-blog-starter-template.templates.workers.dev](https://astro-blog-starter-template.templates.workers.dev)
+Project ini tidak memerlukan file `.env` — konfigurasi deploy (binding assets, compatibility date, dll.) diatur lewat `wrangler.json`.
 
-## 🚀 Project Structure
+## Struktur Folder
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+```
+src/
+  components/   # komponen Astro (Header, Footer, BaseHead, dll.)
+  content/
+    blog/       # konten artikel (.md / .mdx)
+  layouts/      # layout halaman (BlogPost.astro)
+  pages/        # routing: index, about, blog/, rss.xml
+  styles/       # global.css
+  consts.ts     # judul & deskripsi situs
+public/         # aset statis (gambar, font, favicon)
+```
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+## Deploy
 
-The `src/content/` directory contains "collections" of related Markdown and MDX documents. Use `getCollection()` to retrieve posts from `src/content/blog/`, and type-check your frontmatter using an optional schema. See [Astro's Content Collections docs](https://docs.astro.build/en/guides/content-collections/) to learn more.
+Deploy dilakukan ke Cloudflare Workers menggunakan Wrangler:
 
-Any static assets, like images, can be placed in the `public/` directory.
+```bash
+npm run build
+npm run deploy
+```
 
-## 🧞 Commands
+Tidak ada workflow CI/CD otomatis di repo ini — deploy dijalankan manual via perintah di atas.
 
-All commands are run from the root of the project, from a terminal:
+## Kredit
 
-| Command                           | Action                                           |
-| :-------------------------------- | :----------------------------------------------- |
-| `npm install`                     | Installs dependencies                            |
-| `npm run dev`                     | Starts local dev server at `localhost:4321`      |
-| `npm run build`                   | Build your production site to `./dist/`          |
-| `npm run preview`                 | Preview your build locally, before deploying     |
-| `npm run astro ...`               | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help`         | Get help using the Astro CLI                     |
-| `npm run build && npm run deploy` | Deploy your production site to Cloudflare        |
-| `npm wrangler tail`               | View real-time logs for all Workers              |
+Dibuat oleh **Ranupane Rimba Argana**, founder [Kukerjain](https://kukerjain.dev).
 
-## 👀 Want to learn more?
-
-Check out [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
-
-## Credit
-
-This theme is based off of the lovely [Bear Blog](https://github.com/HermanMartinus/bearblog/).
+- https://kukerjain.dev
+- https://ranupane.kukerjain.dev
